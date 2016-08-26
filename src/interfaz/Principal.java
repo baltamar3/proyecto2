@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package interfaz;
 
 import javax.swing.JOptionPane;
@@ -53,22 +52,10 @@ public class Principal extends javax.swing.JFrame {
 
         jLabel2.setText("Numero 1:");
         jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, -1, -1));
-
-        txtNumeroUno.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNumeroUnoKeyTyped(evt);
-            }
-        });
         jPanel1.add(txtNumeroUno, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 70, 60, -1));
 
         jLabel3.setText("Numero 2:");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 70, -1, -1));
-
-        txtNumeroDos.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyTyped(java.awt.event.KeyEvent evt) {
-                txtNumeroDosKeyTyped(evt);
-            }
-        });
         jPanel1.add(txtNumeroDos, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 70, 60, -1));
 
         jLabel4.setText("Resultado:");
@@ -110,100 +97,82 @@ public class Principal extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 339, Short.MAX_VALUE)
         );
 
-        pack();
+        setSize(new java.awt.Dimension(472, 378));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmdCalcularActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdCalcularActionPerformed
-        String num1,num2,res;
-        double n1,n2,resultado=0;
-        int op;
-        
-       
-        
-        if(txtNumeroUno.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this,"Digite el numero uno"," error", JOptionPane.ERROR_MESSAGE);
+        String num1, num2, res;
+        double n1, n2, resultado = 0;
+        int op, sw = 1;
+
+        if (txtNumeroUno.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Digite el numero uno", " error", JOptionPane.ERROR_MESSAGE);
             txtNumeroUno.requestFocusInWindow();
-        }
-        else if(txtNumeroDos.getText().trim().isEmpty()){
-            JOptionPane.showMessageDialog(this,"Digite el numero dos"," error", JOptionPane.ERROR_MESSAGE);
+            sw = 0;
+        } else if (txtNumeroDos.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Digite el numero dos", " error", JOptionPane.ERROR_MESSAGE);
             txtNumeroDos.requestFocusInWindow();
+            sw = 0;
+        } else {
+            try {
+                n1 = Double.parseDouble(txtNumeroUno.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "el primer numero debe ser un numero valido", "Error", JOptionPane.ERROR_MESSAGE);
+                txtNumeroUno.requestFocusInWindow();
+                txtNumeroUno.selectAll();
+                sw=0;
+            }
+            try {
+                n2 = Double.parseDouble(txtNumeroDos.getText());
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "el Segundo numero debe ser un numero valido", "Error", JOptionPane.ERROR_MESSAGE);
+                txtNumeroDos.requestFocusInWindow();
+                txtNumeroDos.selectAll();
+                sw=0;
+            }
+            
         }
-        
-        else{
-        
+        if(sw==1){
+            n1 = Double.parseDouble(txtNumeroUno.getText());
+            n2 = Double.parseDouble(txtNumeroDos.getText());
+            op = cmbOperacion.getSelectedIndex();
 
-        n1=Double.parseDouble(txtNumeroUno.getText());
-        n2=Double.parseDouble(txtNumeroDos.getText());
-        op=cmbOperacion.getSelectedIndex();
-        
-        if(op==3 && n2==0){
-            JOptionPane.showMessageDialog(this, "no digite cero en el segundo numero", "Error",JOptionPane.ERROR_MESSAGE);
-            txtNumeroDos.requestFocusInWindow();
-            txtNumeroDos.selectAll();
+            if (op == 3 && n2 == 0) {
+                JOptionPane.showMessageDialog(this, "no digite cero en el segundo numero", "Error", JOptionPane.ERROR_MESSAGE);
+                txtNumeroDos.requestFocusInWindow();
+                txtNumeroDos.selectAll();
 
+            } else {
+
+                switch (op) {
+                    case 0:
+                        resultado = n1 + n2;
+                        break;
+                    case 1:
+                        resultado = n1 - n2;
+                        break;
+                    case 2:
+                        resultado = n1 * n2;
+                        break;
+                    case 3:
+                        resultado = n1 / n2;
+                        break;
+                }
+                res = String.valueOf(resultado);
+                txtResultado.setText(res);
+            }
         }
-        else{
-        
-        switch(op){
-            case 0:
-                resultado=n1+n2;
-                break;
-            case 1:
-                resultado=n1-n2;
-                break;
-            case 2:
-                resultado=n1*n2;
-                break;
-            case 3:
-                resultado=n1/n2;
-                break;
-        }
-                
-        
-      
-        res=String.valueOf(resultado);
-        txtResultado.setText(res);
-        }
-         }
     }//GEN-LAST:event_cmdCalcularActionPerformed
 
     private void cmdBorrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmdBorrarActionPerformed
         txtNumeroUno.setText("");
         txtNumeroDos.setText("");
         txtResultado.setText("");
-        
+
         txtNumeroUno.requestFocusInWindow();
         cmbOperacion.setSelectedIndex(0);
     }//GEN-LAST:event_cmdBorrarActionPerformed
-
-    private void txtNumeroUnoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroUnoKeyTyped
-       
-             char c=evt.getKeyChar(); 
-             
-         
-          if(!Character.isDigit(c)) { 
-              getToolkit().beep(); 
-               
-              evt.consume(); 
-               
-               
-          } 
-    }//GEN-LAST:event_txtNumeroUnoKeyTyped
-
-    private void txtNumeroDosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroDosKeyTyped
-        
-         char c=evt.getKeyChar(); 
-             
-         
-          if(!Character.isDigit(c)) { 
-              getToolkit().beep(); 
-               
-              evt.consume(); 
-               
-               
-          } 
-        
-    }//GEN-LAST:event_txtNumeroDosKeyTyped
 
     /**
      * @param args the command line arguments
